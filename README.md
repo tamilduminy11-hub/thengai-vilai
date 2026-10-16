@@ -2,6 +2,32 @@
 
 Free daily coconut and copra market rates for farmers. Tamil and English, ₹ per kg / quintal / tonne, with trend charts. No login, no ads, no charges.
 
+- **App (web):** https://thengai-vilai.web.app (Flutter, Firebase Hosting)
+- **Android APK:** https://thengai-vilai.web.app/thengai-vilai.apk
+- **Lightweight page:** https://tamilduminy11-hub.github.io/thengai-vilai/ (static HTML, same data)
+
+## Architecture
+
+```
+GitHub Actions (every 30 min) -> scraper/fetch.py -> Supabase (rates, series, meta) -> Flutter app (web + Android)
+                                                  -> data/*.json in git          -> static index.html (GitHub Pages)
+```
+
+- Supabase project `thengai-vilai` (ap-south-1). Row level security: anyone can read, only the service role writes. Schema in `supabase/migrations/`.
+- GitHub secrets `SUPABASE_URL` and `SUPABASE_SERVICE_KEY` are used by the fetch job.
+- Flutter app in `app/`. Reads Supabase with the public anon key (`app/lib/config.dart`).
+- Android release signing: `app/android/key.properties` + keystore in `../thengai-vilai-keys/` (both outside git). **Back up the keystore**; losing it means future APKs can't update installed ones.
+
+## Release
+
+```bash
+cd app
+flutter build web --release
+flutter build apk --release
+cp build/app/outputs/flutter-apk/app-release.apk build/web/thengai-vilai.apk
+cd .. && firebase deploy --only hosting
+```
+
 ## Where the rates come from
 
 Only public government sources:

@@ -43,6 +43,11 @@ CDB_PRODUCTS = {
     "18": ("coconut_green", "Coconut (green)", "தேங்காய் (பச்சை)", "tonne"),
     "1": ("coconut_oil", "Coconut oil", "தேங்காய் எண்ணெய்", "quintal"),
     "12": ("desiccated_coconut", "Desiccated coconut", "உலர் தேங்காய் துருவல்", "quintal"),
+    # By-products for the farmer calculator. Husk is priced per 1000 husks, so its
+    # "per_kg" field holds the price of ONE husk (see raw_unit "1000pc").
+    "20": ("husk_green", "Husk (green)", "மட்டை (பச்சை)", "1000pc"),
+    "21": ("husk_black", "Husk (black)", "மட்டை (கருப்பு)", "1000pc"),
+    "23": ("shell", "Coconut shell", "தொட்டி (ஓடு)", "tonne"),
 }
 
 # CDB market id -> (slug, English, Tamil)
@@ -56,6 +61,7 @@ CDB_MARKETS = {
     "1": ("kochi", "Kochi", "கொச்சி"),
     "3": ("kozhikode", "Kozhikode", "கோழிக்கோடு"),
     "11": ("tiptur", "Tiptur", "திப்தூர்"),
+    "22": ("negamam", "Negamam", "நெகமம்"),
     "27": ("arisikere", "Arisikere", "அரசிகெரே"),
 }
 
@@ -73,7 +79,7 @@ AGM_STATES = [
     # not per quintal, so converting them to Rs/kg gives nonsense (~Rs 220/kg).
 ]
 
-TO_PER_KG = {"quintal": 100.0, "tonne": 1000.0, "kg": 1.0}
+TO_PER_KG = {"quintal": 100.0, "tonne": 1000.0, "kg": 1.0, "1000pc": 1000.0}
 
 
 def now_ist() -> datetime:
@@ -127,10 +133,12 @@ def parse_cdb(page: str) -> list[dict]:
     # Names exactly as the CDB tables print them.
     cdb_names = {"milling copra": "2", "ball copra": "7", "coconut black": "19",
                  "coconut green": "18", "coconut oil": "1",
-                 "desiccated coconut": "12"}
+                 "desiccated coconut": "12", "coconut husk (green)": "20",
+                 "coconut husk (black)": "21", "coconut shell": "23"}
     cdb_market_names = {"kochi": "1", "kozhikode": "3", "kangayam": "4", "tiptur": "11",
                         "pollachi": "20", "kangeyam(mkt)": "21", "pollachi(mkt)": "25",
-                        "udumalpet": "26", "arisikere": "27", "coimbatore": "28"}
+                        "udumalpet": "26", "arisikere": "27", "coimbatore": "28",
+                        "negamom": "22"}
     out: list[dict] = []
     header: list[str | None] = []
     for row in re.findall(r"(?is)<tr.*?</tr>", page):

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api.dart';
+import 'calc_strings.dart';
 import 'calculator.dart';
 import 'detail_sheet.dart';
 import 'strings.dart';
@@ -129,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: context.pal.surface,
       constraints: const BoxConstraints(maxWidth: 560),
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
-      builder: (_) => CalculatorSheet(items: fresh, s: s),
+      builder: (_) => CalculatorSheet(fresh: fresh, all: items ?? const [], s: s),
     );
   }
 
@@ -137,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final p = context.pal;
     final hero = items?.where((i) => i.id == 'cdb.milling_copra.kangayam').firstOrNull;
-    final freshItems = fresh;
+    final freshItems = fresh.where((i) => groupOrder.contains(i.product)).toList();
     final presentAreas = {for (final i in freshItems) areaOf[i.market] ?? 'state'};
     final activeArea = area == 'all' || presentAreas.contains(area) ? area : 'all';
     final shown = freshItems.where((i) => activeArea == 'all' || areaOf[i.market] == activeArea).toList();

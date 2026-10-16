@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16T19:06+05:30",
+ "generated": "2026-10-16T20:04+05:30",
  "items": [
   {
    "id": "agm.coconut.kerala",
@@ -107,6 +107,21 @@
    "prev_date": "2026-08-30"
   },
   {
+   "id": "cdb.coconut_black.negamam",
+   "source": "cdb",
+   "product": "coconut_black",
+   "product_en": "Coconut (black)",
+   "product_ta": "தேங்காய் (கருப்பு)",
+   "market": "negamam",
+   "market_en": "Negamam",
+   "market_ta": "நெகமம்",
+   "date": "2026-08-31",
+   "per_kg": 57.0,
+   "first_seen": "2026-10-16T20:04+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-08-30"
+  },
+  {
    "id": "cdb.coconut_black.pollachi",
    "source": "cdb",
    "product": "coconut_black",
@@ -163,6 +178,21 @@
    "date": "2026-08-31",
    "per_kg": 53.0,
    "first_seen": "2026-10-16T18:41+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-08-30"
+  },
+  {
+   "id": "cdb.coconut_green.negamam",
+   "source": "cdb",
+   "product": "coconut_green",
+   "product_en": "Coconut (green)",
+   "product_ta": "தேங்காய் (பச்சை)",
+   "market": "negamam",
+   "market_en": "Negamam",
+   "market_ta": "நெகமம்",
+   "date": "2026-08-31",
+   "per_kg": 53.0,
+   "first_seen": "2026-10-16T20:04+05:30",
    "change_per_kg": 0.0,
    "prev_date": "2026-08-30"
   },
@@ -272,6 +302,36 @@
    "prev_date": "2026-10-14"
   },
   {
+   "id": "cdb.husk_black.pollachi",
+   "source": "cdb",
+   "product": "husk_black",
+   "product_en": "Husk (black)",
+   "product_ta": "மட்டை (கருப்பு)",
+   "market": "pollachi",
+   "market_en": "Pollachi",
+   "market_ta": "பொள்ளாச்சி",
+   "date": "2026-08-31",
+   "per_kg": 2.8,
+   "first_seen": "2026-10-16T20:04+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-08-30"
+  },
+  {
+   "id": "cdb.husk_green.pollachi",
+   "source": "cdb",
+   "product": "husk_green",
+   "product_en": "Husk (green)",
+   "product_ta": "மட்டை (பச்சை)",
+   "market": "pollachi",
+   "market_en": "Pollachi",
+   "market_ta": "பொள்ளாச்சி",
+   "date": "2026-08-31",
+   "per_kg": 5.5,
+   "first_seen": "2026-10-16T20:04+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-08-30"
+  },
+  {
    "id": "cdb.milling_copra.kangayam",
    "source": "cdb",
    "product": "milling_copra",
@@ -332,6 +392,21 @@
    "prev_date": "2026-10-14"
   },
   {
+   "id": "cdb.milling_copra.negamam",
+   "source": "cdb",
+   "product": "milling_copra",
+   "product_en": "Milling copra",
+   "product_ta": "அரவை கொப்பரை",
+   "market": "negamam",
+   "market_en": "Negamam",
+   "market_ta": "நெகமம்",
+   "date": "2026-08-31",
+   "per_kg": 167.0,
+   "first_seen": "2026-10-16T20:04+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-08-30"
+  },
+  {
    "id": "cdb.milling_copra.pollachi",
    "source": "cdb",
    "product": "milling_copra",
@@ -343,6 +418,51 @@
    "date": "2026-08-31",
    "per_kg": 172.0,
    "first_seen": "2026-10-16T18:41+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-08-30"
+  },
+  {
+   "id": "cdb.shell.kangayam_mkt",
+   "source": "cdb",
+   "product": "shell",
+   "product_en": "Coconut shell",
+   "product_ta": "தொட்டி (ஓடு)",
+   "market": "kangayam_mkt",
+   "market_en": "Kangayam (market)",
+   "market_ta": "காங்கேயம் (சந்தை)",
+   "date": "2026-08-31",
+   "per_kg": 37.7,
+   "first_seen": "2026-10-16T20:04+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-08-30"
+  },
+  {
+   "id": "cdb.shell.negamam",
+   "source": "cdb",
+   "product": "shell",
+   "product_en": "Coconut shell",
+   "product_ta": "தொட்டி (ஓடு)",
+   "market": "negamam",
+   "market_en": "Negamam",
+   "market_ta": "நெகமம்",
+   "date": "2026-08-31",
+   "per_kg": 37.0,
+   "first_seen": "2026-10-16T20:04+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-08-30"
+  },
+  {
+   "id": "cdb.shell.pollachi",
+   "source": "cdb",
+   "product": "shell",
+   "product_en": "Coconut shell",
+   "product_ta": "தொட்டி (ஓடு)",
+   "market": "pollachi",
+   "market_en": "Pollachi",
+   "market_ta": "பொள்ளாச்சி",
+   "date": "2026-08-31",
+   "per_kg": 8.75,
+   "first_seen": "2026-10-16T20:04+05:30",
    "change_per_kg": 0.0,
    "prev_date": "2026-08-30"
   }

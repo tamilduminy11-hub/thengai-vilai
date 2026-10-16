@@ -1,0 +1,37 @@
+name: Fetch rates
+
+# Every 30 minutes from 06:00 to 23:30 IST (00:30–18:00 UTC), plus manual runs.
+on:
+  schedule:
+    - cron: "0,30 0-18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-rates
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch Coconut Board + Agmarknet
+        run: python -I scraper/fetch.py
+      - name: Commit new rates
+        run: |
+          git config user.name "rates-bot"
+          git config user.email "rates-bot@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "No new rates"
+          else
+            git commit -m "rates: $(TZ=Asia/Kolkata date '+%d %b %Y %H:%M IST')"
+            git push
+          fi

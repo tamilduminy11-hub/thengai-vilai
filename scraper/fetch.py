@@ -16,6 +16,7 @@ from __future__ import annotations
 import html
 import http.cookiejar
 import json
+import os
 import re
 import sys
 import time
@@ -251,21 +252,24 @@ def load_json(path: Path, default):
         return default
 
 
-def merge(history: dict, obs: list[dict], seen_at: str) -> int:
-    """history = {series: {date: {per_kg, raw, raw_unit, first_seen, updated}}}"""
-    changed = 0
+def merge(history: dict, obs: list[dict], seen_at: str) -> list[tuple[str, str]]:
+    """history = {series: {date: {per_kg, raw, raw_unit, first_seen, updated}}}
+
+    Returns the (series, date) keys that are new or revised.
+    """
+    changed: list[tuple[str, str]] = []
     for o in obs:
         days = history.setdefault(o["series"], {})
         cur = days.get(o["date"])
         rec = {"per_kg": o["per_kg"], "raw": o["raw"], "raw_unit": o["raw_unit"]}
         if cur is None:
             days[o["date"]] = {**rec, "first_seen": seen_at, "updated": seen_at}
-            changed += 1
+            changed.append((o["series"], o["date"]))
         elif cur["per_kg"] != o["per_kg"]:
             # Source revised a past figure: keep first_seen, record the revision time.
             cur.update(rec)
             cur["updated"] = seen_at
-            changed += 1
+            changed.append((o["series"], o["date"]))
     return changed
 
 
@@ -286,6 +290,49 @@ def build_latest(history: dict, meta: dict, generated: str) -> dict:
             "prev_date": dates[-2] if prev else None,
         })
     return {"generated": generated, "items": items}
+
+
+# --------------------------------------------------------------------------
+# Supabase (optional: only when SUPABASE_URL + SUPABASE_SERVICE_KEY are set)
+# --------------------------------------------------------------------------
+def _supabase_post(table: str, rows: list[dict], on_conflict: str) -> None:
+    url = os.environ["SUPABASE_URL"].rstrip("/") + f"/rest/v1/{table}?on_conflict={on_conflict}"
+    key = os.environ["SUPABASE_SERVICE_KEY"]
+    for i in range(0, len(rows), 1000):
+        req = urllib.request.Request(url, json.dumps(rows[i:i + 1000]).encode(), method="POST", headers={
+            "apikey": key, "Authorization": f"Bearer {key}", "Content-Type": "application/json",
+            "Prefer": "resolution=merge-duplicates,return=minimal",
+        })
+        with urllib.request.urlopen(req, timeout=60):
+            pass
+
+
+def _supabase_count(table: str) -> int:
+    url = os.environ["SUPABASE_URL"].rstrip("/") + f"/rest/v1/{table}?select=series_id&limit=1"
+    key = os.environ["SUPABASE_SERVICE_KEY"]
+    req = urllib.request.Request(url, headers={"apikey": key, "Authorization": f"Bearer {key}", "Prefer": "count=exact"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return int(r.headers.get("Content-Range", "*/0").split("/")[-1] or 0)
+
+
+def sync_supabase(history: dict, meta: dict, changed: list[tuple[str, str]], seen_at: str) -> None:
+    if not (os.environ.get("SUPABASE_URL") and os.environ.get("SUPABASE_SERVICE_KEY")):
+        return
+    _supabase_post("series", [{"id": sid, **{k: m[k] for k in (
+        "source", "product", "product_en", "product_ta", "market", "market_en", "market_ta")}}
+        for sid, m in meta.items() if sid in history], "id")
+    # Empty table (first sync) gets everything; afterwards only new/revised days.
+    keys = ([(sid, d) for sid, days in history.items() if sid in meta for d in days]
+            if _supabase_count("rates") == 0 else [k for k in changed if k[0] in meta])
+    rows = []
+    for sid, d in keys:
+        r = history[sid][d]
+        rows.append({"series_id": sid, "day": d, "per_kg": r["per_kg"], "raw": r["raw"], "raw_unit": r["raw_unit"],
+                     "first_seen": r["first_seen"], "updated": r["updated"]})
+    if rows:
+        _supabase_post("rates", rows, "series_id,day")
+    _supabase_post("meta", [{"key": "last_checked", "value": seen_at}], "key")
+    print(f"supabase: {len(rows)} rates synced")
 
 
 def main() -> int:
@@ -328,7 +375,11 @@ def main() -> int:
     for sid, days in history.items():
         rows = [[d, days[d]["per_kg"]] for d in sorted(days)]
         (series_dir / f"{sid}.json").write_text(json.dumps(rows, separators=(",", ":")))
-    print(f"{changed} new/changed values at {seen_at}")
+    print(f"{len(changed)} new/changed values at {seen_at}")
+    try:
+        sync_supabase(history, meta, changed, seen_at)
+    except Exception as e:  # noqa: BLE001 - the JSON files are still written
+        print(f"supabase failed: {e}", file=sys.stderr)
     return 0
 
 

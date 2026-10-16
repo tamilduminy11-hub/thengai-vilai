@@ -22,12 +22,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Fetch Coconut Board + Agmarknet
+      - name: Fetch Coconut Board + Agmarknet (and sync to Supabase)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python -I scraper/fetch.py
       - name: Commit new rates
         run: |
           git config user.name "rates-bot"
           git config user.email "rates-bot@users.noreply.github.com"
+          # Only commit when a rate actually changed; "last checked" lives in Supabase.
+          if git diff --quiet -- data/history.json; then
+            echo "No new rates"
+            exit 0
+          fi
           git add data
           if git diff --cached --quiet; then
             echo "No new rates"

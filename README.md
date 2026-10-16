@@ -3,7 +3,7 @@
 Free daily coconut and copra market rates for farmers. Tamil and English, ₹ per kg / quintal / tonne, with trend charts. No login, no ads, no charges.
 
 - **App (web):** https://thengai-vilai.web.app (Flutter, Firebase Hosting)
-- **Android APK:** https://thengai-vilai.web.app/thengai-vilai.apk
+- **Android APK:** https://thengai-vilai.web.app/thengai-vilai.apk (redirects to the latest GitHub release; Firebase's free plan does not allow hosting APK files)
 - **Lightweight page:** https://tamilduminy11-hub.github.io/thengai-vilai/ (static HTML, same data)
 
 ## Architecture
@@ -24,7 +24,8 @@ GitHub Actions (every 30 min) -> scraper/fetch.py -> Supabase (rates, series, me
 cd app
 flutter build web --release
 flutter build apk --release
-cp build/app/outputs/flutter-apk/app-release.apk build/web/thengai-vilai.apk
+cp build/app/outputs/flutter-apk/app-release.apk /tmp/thengai-vilai.apk
+gh release create vX.Y.Z /tmp/thengai-vilai.apk --title "தேங்காய் விலை X.Y"   # bump version in pubspec.yaml first
 cd .. && firebase deploy --only hosting
 ```
 

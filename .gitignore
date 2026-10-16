@@ -3,3 +3,4 @@ __pycache__/
 .env.local
 *.jks
 key.properties
+.firebase/

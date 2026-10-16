@@ -18,6 +18,7 @@ class RateItem {
     required this.day,
     required this.perKg,
     required this.changePerKg,
+    this.calc,
   });
 
   final String id;
@@ -32,6 +33,9 @@ class RateItem {
   final double perKg;
   final double? changePerKg;
 
+  /// Set for prices we calculate rather than read from a source (see [CalcInfo]).
+  final CalcInfo? calc;
+
   factory RateItem.fromJson(Map<String, dynamic> j) => RateItem(
         id: j['id'] as String,
         source: j['source'] as String,
@@ -45,6 +49,61 @@ class RateItem {
         perKg: (j['per_kg'] as num).toDouble(),
         changePerKg: (j['change_per_kg'] as num?)?.toDouble(),
       );
+}
+
+/// How a calculated price was made, so the app can explain it in plain words.
+class CalcInfo {
+  CalcInfo({
+    required this.inputId,
+    required this.inputPerKg,
+    required this.ratio,
+    required this.errMedianPct,
+    required this.errP90Pct,
+    required this.n,
+  });
+  final String inputId; // e.g. cdb.charcoal.kangayam
+  final double inputPerKg;
+  final double ratio;
+  final double errMedianPct;
+  final double errP90Pct;
+  final int n;
+
+  /// Typical-error band: 9 out of 10 past days fell inside it.
+  double lo(double v) => v * (1 - errP90Pct / 100);
+  double hi(double v) => v * (1 + errP90Pct / 100);
+}
+
+/// Turns the fetcher's published models into RateItems the UI can list like any other price.
+List<RateItem> calculatedItems(Map<String, dynamic> models) {
+  final out = <RateItem>[];
+  models.forEach((id, raw) {
+    final m = raw as Map<String, dynamic>;
+    if (m['kind'] != 'shell_from_charcoal') return;
+    final input = (m['input_per_kg'] as num).toDouble();
+    final ratio = (m['ratio'] as num).toDouble();
+    out.add(RateItem(
+      id: 'calc.$id',
+      source: 'calc',
+      product: 'shell_calc',
+      productEn: 'Shell (calculated)',
+      productTa: 'தொட்டி (கணக்கிட்டது)',
+      market: m['market'] as String,
+      marketEn: m['market_en'] as String,
+      marketTa: m['market_ta'] as String,
+      day: DateTime.parse(m['input_day'] as String),
+      perKg: double.parse((input * ratio).toStringAsFixed(2)),
+      changePerKg: null,
+      calc: CalcInfo(
+        inputId: m['input'] as String,
+        inputPerKg: input,
+        ratio: ratio,
+        errMedianPct: (m['err_median_pct'] as num).toDouble(),
+        errP90Pct: (m['err_p90_pct'] as num).toDouble(),
+        n: (m['n'] as num).toInt(),
+      ),
+    ));
+  });
+  return out;
 }
 
 class DayRate {
@@ -88,6 +147,12 @@ class RatesApi {
     return rows
         .map((r) => DayRate(DateTime.parse(r['day'] as String), (r['per_kg'] as num).toDouble()))
         .toList();
+  }
+
+  Future<Map<String, dynamic>> models() async {
+    final rows = await _get('meta?select=value&key=eq.models') as List;
+    if (rows.isEmpty) return const {};
+    return (rows.first['value'] as Map).cast<String, dynamic>();
   }
 
   Future<DateTime?> lastChecked() async {

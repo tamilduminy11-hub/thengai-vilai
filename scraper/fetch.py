@@ -48,6 +48,9 @@ CDB_PRODUCTS = {
     "20": ("husk_green", "Husk (green)", "மட்டை (பச்சை)", "1000pc"),
     "21": ("husk_black", "Husk (black)", "மட்டை (கருப்பு)", "1000pc"),
     "23": ("shell", "Coconut shell", "தொட்டி (ஓடு)", "tonne"),
+    # Shell is mostly bought to burn into charcoal; daily charcoal prices let us
+    # estimate today's shell price when the (monthly) shell figure is stale.
+    "31": ("charcoal", "Shell charcoal", "தொட்டி கரி", "tonne"),
 }
 
 # CDB market id -> (slug, English, Tamil)
@@ -134,7 +137,8 @@ def parse_cdb(page: str) -> list[dict]:
     cdb_names = {"milling copra": "2", "ball copra": "7", "coconut black": "19",
                  "coconut green": "18", "coconut oil": "1",
                  "desiccated coconut": "12", "coconut husk (green)": "20",
-                 "coconut husk (black)": "21", "coconut shell": "23"}
+                 "coconut husk (black)": "21", "coconut shell": "23",
+                 "charcoal": "31"}
     cdb_market_names = {"kochi": "1", "kozhikode": "3", "kangayam": "4", "tiptur": "11",
                         "pollachi": "20", "kangeyam(mkt)": "21", "pollachi(mkt)": "25",
                         "udumalpet": "26", "arisikere": "27", "coimbatore": "28",
@@ -301,6 +305,55 @@ def build_latest(history: dict, meta: dict, generated: str) -> dict:
 
 
 # --------------------------------------------------------------------------
+# Calculated prices
+# --------------------------------------------------------------------------
+# Shell is published only about monthly, but charcoal (what shell is burnt into)
+# is published daily. Over a year of CDB data, shell / charcoal on the same day is
+# very stable (~0.356, leave-one-out error ~1% median, <=6% worst), so today's
+# shell price = today's charcoal x that ratio. Re-measured on every run.
+# Husk was tested the same way against coconut and copra prices and is NOT
+# predictable (15-20% median error), so no husk model is published.
+SHELL_MODELS = [
+    # (model id, shell series, charcoal series, market slug, English, Tamil)
+    ("shell_kangayam", "cdb.shell.kangayam_mkt", "cdb.charcoal.kangayam", "kangayam", "Kangayam", "காங்கேயம்"),
+    ("shell_pollachi", "cdb.shell.negamam", "cdb.charcoal.pollachi_mkt", "pollachi", "Pollachi / Negamam", "பொள்ளாச்சி / நெகமம்"),
+]
+
+
+def _quantile(xs: list[float], q: float) -> float:
+    xs = sorted(xs)
+    i = (len(xs) - 1) * q
+    lo, hi = int(i), min(int(i) + 1, len(xs) - 1)
+    return xs[lo] + (xs[hi] - xs[lo]) * (i - lo)
+
+
+def calibrate(history: dict) -> dict:
+    models = {}
+    for mid, shell_id, char_id, mslug, men, mta in SHELL_MODELS:
+        shell, char = history.get(shell_id, {}), history.get(char_id, {})
+        pairs = [(d, shell[d]["per_kg"], char[d]["per_kg"]) for d in sorted(set(shell) & set(char))]
+        if len(pairs) < 30 or not char:
+            continue
+        ratios = [a / b for _, a, b in pairs]
+        med = _quantile(ratios, 0.5)
+        # Leave-one-out backtest: how far off would this formula have been on past days?
+        errs = []
+        for i, (_, a, b) in enumerate(pairs):
+            others = ratios[:i] + ratios[i + 1:]
+            errs.append(abs(_quantile(others, 0.5) * b - a) / a)
+        last_char_day = max(char)
+        models[mid] = {
+            "kind": "shell_from_charcoal",
+            "market": mslug, "market_en": men, "market_ta": mta,
+            "input": char_id, "input_day": last_char_day, "input_per_kg": char[last_char_day]["per_kg"],
+            "ratio": round(med, 4), "ratio_p10": round(_quantile(ratios, 0.1), 4), "ratio_p90": round(_quantile(ratios, 0.9), 4),
+            "n": len(pairs), "from": pairs[0][0], "to": pairs[-1][0],
+            "err_median_pct": round(_quantile(errs, 0.5) * 100, 1), "err_p90_pct": round(_quantile(errs, 0.9) * 100, 1),
+        }
+    return models
+
+
+# --------------------------------------------------------------------------
 # Supabase (optional: only when SUPABASE_URL + SUPABASE_SERVICE_KEY are set)
 # --------------------------------------------------------------------------
 def _supabase_post(table: str, rows: list[dict], on_conflict: str) -> None:
@@ -323,7 +376,7 @@ def _supabase_count(table: str) -> int:
         return int(r.headers.get("Content-Range", "*/0").split("/")[-1] or 0)
 
 
-def sync_supabase(history: dict, meta: dict, changed: list[tuple[str, str]], seen_at: str) -> None:
+def sync_supabase(history: dict, meta: dict, changed: list[tuple[str, str]], seen_at: str, models: dict | None = None) -> None:
     if not (os.environ.get("SUPABASE_URL") and os.environ.get("SUPABASE_SERVICE_KEY")):
         return
     _supabase_post("series", [{"id": sid, **{k: m[k] for k in (
@@ -339,7 +392,10 @@ def sync_supabase(history: dict, meta: dict, changed: list[tuple[str, str]], see
                      "first_seen": r["first_seen"], "updated": r["updated"]})
     if rows:
         _supabase_post("rates", rows, "series_id,day")
-    _supabase_post("meta", [{"key": "last_checked", "value": seen_at}], "key")
+    meta_rows = [{"key": "last_checked", "value": seen_at}]
+    if models is not None:
+        meta_rows.append({"key": "models", "value": models})
+    _supabase_post("meta", meta_rows, "key")
     print(f"supabase: {len(rows)} rates synced")
 
 
@@ -384,8 +440,13 @@ def main() -> int:
         rows = [[d, days[d]["per_kg"]] for d in sorted(days)]
         (series_dir / f"{sid}.json").write_text(json.dumps(rows, separators=(",", ":")))
     print(f"{len(changed)} new/changed values at {seen_at}")
+    models = calibrate(history)
+    (DATA / "models.json").write_text(json.dumps(models, ensure_ascii=False, indent=1))
+    for mid, m in models.items():
+        print(f"model {mid}: shell = charcoal x {m['ratio']} (n={m['n']}, err median {m['err_median_pct']}%, p90 {m['err_p90_pct']}%)"
+              f" -> today Rs {round(m['input_per_kg'] * m['ratio'] * 1000):,}/t")
     try:
-        sync_supabase(history, meta, changed, seen_at)
+        sync_supabase(history, meta, changed, seen_at, models)
     except Exception as e:  # noqa: BLE001 - the JSON files are still written
         print(f"supabase failed: {e}", file=sys.stderr)
     return 0

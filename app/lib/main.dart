@@ -75,6 +75,11 @@ class _HomeScreenState extends State<HomeScreen> {
       try {
         c = await api.lastChecked();
       } catch (_) {}
+      try {
+        latest.addAll(calculatedItems(await api.models()));
+      } catch (_) {
+        // Calculated prices are extra; the published ones still show.
+      }
       if (!mounted) return;
       setState(() {
         items = latest;

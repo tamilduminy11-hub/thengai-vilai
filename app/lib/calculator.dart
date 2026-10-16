@@ -67,7 +67,12 @@ class _CalculatorSheetState extends State<CalculatorSheet> {
       };
 
   // Pollachi's shell figure is far off the other markets, so prefer Kangayam / Negamam.
-  RateItem? get _shellRate => _byId('cdb.shell.kangayam_mkt') ?? _byId('cdb.shell.negamam');
+  // When the published shell price is old, use today's price calculated from charcoal.
+  RateItem? get _shellRate {
+    final published = _byId('cdb.shell.kangayam_mkt') ?? _byId('cdb.shell.negamam');
+    if (published != null && !_isOld(published.day)) return published;
+    return _byId('calc.shell_kangayam') ?? _byId('calc.shell_pollachi');
+  }
   RateItem? get _copraRate => _byId('cdb.milling_copra.kangayam');
 
   int _round100(double v) => (v / 100).round() * 100;
@@ -264,7 +269,12 @@ class _CalculatorSheetState extends State<CalculatorSheet> {
           _Line(label: s.copraTotal, value: money(total.roundToDouble(), Unit.kg), strong: true),
           _Line(label: s.copraPerKg(money(totalKg == 0 ? 0 : total / totalKg, Unit.kg)), value: ''),
           _RateNote(text: s.rateAsOn(c.day, s.copraRate), old: false, s: s),
-          if (shellPerTon == null && shellMarket != null) _RateNote(text: s.rateAsOn(sh!.day, s.shellRate), old: false, s: s),
+          if (shellPerTon == null && shellMarket != null)
+            _RateNote(
+              text: s.rateAsOn(sh!.day, sh.calc == null ? s.shellRate : '${s.shellRate} (${s.source('calc')})'),
+              old: false,
+              s: s,
+            ),
           const SizedBox(height: 4),
           Text(s.copraNote, style: TextStyle(fontSize: 13, color: p.ink3, height: 1.45)),
         ],

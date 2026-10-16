@@ -36,9 +36,15 @@ class S {
       };
   String per(Unit u) => ta ? 'ஒரு ${unit(u)}' : 'per ${unit(u)}';
 
-  String source(String s) => s == 'cdb'
-      ? (ta ? 'தென்னை வளர்ச்சி வாரியம்' : 'Coconut Development Board')
-      : (ta ? 'அக்மார்க்நெட்' : 'Agmarknet');
+  String source(String s) => switch (s) {
+        'cdb' => ta ? 'தென்னை வளர்ச்சி வாரியம்' : 'Coconut Development Board',
+        'calc' => ta ? 'கரி விலையிலிருந்து கணக்கிட்டது' : 'calculated from charcoal price',
+        _ => ta ? 'அக்மார்க்நெட்' : 'Agmarknet',
+      };
+  String get calculated => ta ? 'கணக்கிட்டது' : 'Calculated';
+  String calcExplain(String charcoal, String ratio, String errMed, String errP90, int n) => ta
+      ? 'தொட்டி விலை மாதம் ஒருமுறைதான் வெளியாகிறது. ஆனால் தொட்டி கரி விலை தினமும் வருகிறது. கடந்த $n நாள் அரசு தரவில் தொட்டி விலை = கரி விலை × $ratio ஆக இருந்தது. இன்றைய கரி $charcoal × $ratio = இந்த விலை. பழைய நாட்களில் சோதித்தபோது பொதுவாக $errMed%, 10-ல் 9 நாள் $errP90%-க்குள் சரியாக இருந்தது.'
+      : 'Shell prices are published only about once a month, but shell charcoal is published daily. Over $n days of government data, shell price = charcoal price × $ratio. Today\'s charcoal $charcoal × $ratio = this price. Tested on past days it was typically within $errMed%, and within $errP90% on 9 days out of 10.';
 
   static const _monthsTa = ['ஜன', 'பிப்', 'மார்', 'ஏப்', 'மே', 'ஜூன்', 'ஜூலை', 'ஆக', 'செப்', 'அக்', 'நவ', 'டிச'];
   static const _monthsEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -53,6 +59,8 @@ class S {
     'coconut_green': 'தேங்காய் (பச்சை)',
     'coconut_oil': 'தேங்காய் எண்ணெய்',
     'desiccated_coconut': 'உலர் தேங்காய் துருவல்',
+    'shell_calc': 'தொட்டி (ஓடு), கணக்கிட்ட இன்றைய விலை',
+    'charcoal': 'தொட்டி கரி',
     'copra': 'கொப்பரை (மாநில சராசரி)',
     'coconut': 'தேங்காய் (மாநில சராசரி)',
     'tender_coconut': 'இளநீர் (மாநில சராசரி)',
@@ -64,6 +72,8 @@ class S {
     'coconut_green': 'Coconut (green)',
     'coconut_oil': 'Coconut oil',
     'desiccated_coconut': 'Desiccated coconut',
+    'shell_calc': "Shell, today's calculated price",
+    'charcoal': 'Shell charcoal',
     'copra': 'Copra (state average)',
     'coconut': 'Coconut (state average)',
     'tender_coconut': 'Tender coconut (state average)',
@@ -100,7 +110,7 @@ class S {
 
 const groupOrder = [
   'milling_copra', 'ball_copra', 'coconut_black', 'coconut_green', 'coconut_oil',
-  'desiccated_coconut', 'copra', 'coconut', 'tender_coconut',
+  'shell_calc', 'charcoal', 'desiccated_coconut', 'copra', 'coconut', 'tender_coconut',
 ];
 const marketOrder = [
   'kangayam', 'kangayam_mkt', 'pollachi', 'pollachi_mkt', 'negamam', 'udumalpet', 'coimbatore',

@@ -27,7 +27,10 @@ class _DetailSheetState extends State<DetailSheet> {
   @override
   void initState() {
     super.initState();
-    widget.api.series(widget.item.id).then((r) {
+    final calc = widget.item.calc;
+    // A calculated price's history is its input's history times the same ratio.
+    widget.api.series(calc?.inputId ?? widget.item.id).then((r) {
+      if (calc != null) r = [for (final d in r) DayRate(d.day, d.perKg * calc.ratio)];
       if (mounted) setState(() => rows = r);
     }).catchError((_) {
       if (mounted) setState(() => failed = true);
@@ -93,6 +96,25 @@ class _DetailSheetState extends State<DetailSheet> {
             Unit.values.where((x) => x != u).map((x) => '${money(i.perKg, x)} / ${s.unit(x)}').join('     '),
             style: TextStyle(fontSize: 14, color: p.ink2),
           ),
+          if (i.calc != null) ...[
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(color: p.flatBg, borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CalcBadge(s: s),
+                  const SizedBox(height: 4),
+                  Text(
+                    s.calcExplain(money(i.calc!.inputPerKg, Unit.tonne), i.calc!.ratio.toStringAsFixed(3),
+                        i.calc!.errMedianPct.toStringAsFixed(0), i.calc!.errP90Pct.toStringAsFixed(1), i.calc!.n),
+                    style: TextStyle(fontSize: 14, color: p.ink2, height: 1.5),
+                  ),
+                ],
+              ),
+            ),
+          ],
           const SizedBox(height: 14),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,

@@ -348,6 +348,7 @@ class _RateRow extends StatelessWidget {
                     Text(s.ta ? item.marketTa : item.marketEn,
                         style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
                     Text(s.asOn(item.day), style: TextStyle(fontSize: 13.5, color: p.ink3)),
+                    if (item.calc != null) CalcBadge(s: s),
                   ],
                 ),
               ),
@@ -355,12 +356,38 @@ class _RateRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(money(item.perKg, unit), style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
-                  ChangePill(change: item.changePerKg, unit: unit, s: s),
+                  if (item.calc != null)
+                    Text('${money(item.calc!.lo(item.perKg), unit)} – ${money(item.calc!.hi(item.perKg), unit)}',
+                        style: TextStyle(fontSize: 13, color: p.ink3))
+                  else
+                    ChangePill(change: item.changePerKg, unit: unit, s: s),
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Marks a price we calculated (not read from a source) so nobody mistakes it for a quote.
+class CalcBadge extends StatelessWidget {
+  const CalcBadge({super.key, required this.s});
+  final S s;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.pal;
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.calculate_outlined, size: 14, color: p.husk),
+          const SizedBox(width: 3),
+          Text(s.calculated, style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: p.husk)),
+        ],
       ),
     );
   }

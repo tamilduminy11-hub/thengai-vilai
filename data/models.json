@@ -1,0 +1,36 @@
+{
+ "shell_kangayam": {
+  "kind": "shell_from_charcoal",
+  "market": "kangayam",
+  "market_en": "Kangayam",
+  "market_ta": "காங்கேயம்",
+  "input": "cdb.charcoal.kangayam",
+  "input_day": "2026-10-15",
+  "input_per_kg": 95.0,
+  "ratio": 0.3563,
+  "ratio_p10": 0.3523,
+  "ratio_p90": 0.3652,
+  "n": 320,
+  "from": "2025-10-16",
+  "to": "2026-08-31",
+  "err_median_pct": 1.0,
+  "err_p90_pct": 3.3
+ },
+ "shell_pollachi": {
+  "kind": "shell_from_charcoal",
+  "market": "pollachi",
+  "market_en": "Pollachi / Negamam",
+  "market_ta": "பொள்ளாச்சி / நெகமம்",
+  "input": "cdb.charcoal.pollachi_mkt",
+  "input_day": "2026-10-15",
+  "input_per_kg": 95.0,
+  "ratio": 0.3567,
+  "ratio_p10": 0.3409,
+  "ratio_p90": 0.3636,
+  "n": 320,
+  "from": "2025-10-16",
+  "to": "2026-08-31",
+  "err_median_pct": 0.9,
+  "err_p90_pct": 4.8
+ }
+}

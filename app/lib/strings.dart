@@ -89,6 +89,49 @@ class S {
     'state': 'State average',
   };
 
+  // Coconut value calculator
+  String get calcButton => ta ? 'என் தேங்காய்க்கு என்ன விலை? கணக்கிடு' : 'What is my coconut worth? Calculate';
+  String get calcTitle => ta ? 'என் தேங்காய் விலை கணக்கீடு' : 'My coconut price';
+  String get calcCount => ta ? 'தேங்காய் எண்ணிக்கை' : 'Number of coconuts';
+  String get calcPieces => ta ? 'காய்' : 'nuts';
+  String get calcGrams => ta ? 'ஒரு தேங்காயின் எடை' : 'Weight of one coconut';
+  String get calcGramUnit => ta ? 'கிராம்' : 'grams';
+  String get calcGramsHint => ta
+      ? 'உரித்த தேங்காய். சாதாரணமாக 400–700 கிராம். 10 காய் எடைபோட்டு 10-ஆல் வகுத்தால் சரியான சராசரி கிடைக்கும்.'
+      : 'Dehusked nut, usually 400–700 g. Weigh 10 nuts and divide by 10 for a good average.';
+  String get calcType => ta ? 'தேங்காய் வகை' : 'Coconut type';
+  String get calcBlack => ta ? 'கருப்பு' : 'Black';
+  String get calcGreen => ta ? 'பச்சை' : 'Green';
+  String get calcUnknown => ta ? 'தெரியவில்லை' : 'Not sure';
+  String get calcCountError => ta ? 'எண்ணிக்கையை உள்ளிடுங்கள் (1 அல்லது அதற்கு மேல்)' : 'Enter a number of 1 or more';
+  String get calcGramsError => ta ? '50 முதல் 3000 கிராம் வரை உள்ளிடுங்கள்' : 'Enter between 50 and 3000 grams';
+  String get calcEnter => ta ? 'எண்ணிக்கையும் எடையும் உள்ளிட்டால் விலை தெரியும்.' : 'Enter the count and weight to see the price.';
+  String get calcNoRates => ta ? 'இன்று தேங்காய் சந்தை விலை கிடைக்கவில்லை.' : "No coconut market rate available right now.";
+  String get calcPerPiece => ta ? 'ஒரு தேங்காய்க்கு' : 'Per coconut';
+  String calcTotal(int n) => ta ? '$n தேங்காய்க்கு மொத்தம்' : 'Total for $n coconuts';
+  String get calcWeight => ta ? 'மொத்த எடை' : 'Total weight';
+  String calcKg(double kg) => kg >= 1000
+      ? '${(kg / 1000).toStringAsFixed(2)} ${ta ? 'டன்' : 'tonne'}'
+      : '${kg.toStringAsFixed(kg < 10 ? 1 : 0)} ${ta ? 'கிலோ' : 'kg'}';
+  String calcWeightValue(double kg) => calcKg(kg);
+  String get calcPerTonne => ta ? 'ஒரு டன் சந்தை விலை' : 'Market price per tonne';
+  String get calcPerKg => ta ? 'ஒரு கிலோ சந்தை விலை' : 'Market price per kg';
+  String calcBasis(DateTime d, String markets) => ta
+      ? '${date(d)} சந்தை விலை ($markets), தென்னை வளர்ச்சி வாரியம்.'
+      : 'Market rate as on ${date(d)} ($markets), Coconut Development Board.';
+  String get calcCopraTitle => ta ? 'கொப்பரை கணக்கில் சரிபார்ப்பு' : 'Copra cross-check';
+  String get calcCopraKg => ta ? 'கிடைக்கும் கொப்பரை (30%)' : 'Copra you would get (30%)';
+  String calcCopraValue(double perKg) => ta
+      ? 'கொப்பரை மதிப்பு (காங்கேயம் ₹${perKg.toStringAsFixed(0)}/கிலோ)'
+      : 'Copra value (Kangayam ₹${perKg.toStringAsFixed(0)}/kg)';
+  String get calcCopraPerKg => ta ? 'தேங்காய் ஒரு கிலோவுக்கு (கொப்பரை மட்டும்)' : 'Per kg coconut (copra only)';
+  String get calcCopraNote => ta
+      ? '100 கிலோ உரித்த தேங்காய் ≈ 30 கிலோ கொப்பரை + சுமார் 15 கிலோ தொட்டி (ஓடு). தொட்டி விற்பனை சேர்த்தால் மதிப்பு கொஞ்சம் கூடும்; உலர்த்தும் கூலி கழிந்தால் குறையும்.'
+      : '100 kg dehusked coconut ≈ 30 kg copra + about 15 kg shell. Selling the shell adds a little; drying and labour costs take a little away.';
+  String get calcDisclaimer => ta
+      ? 'இது இன்றைய அரசு சந்தை விலையின் அடிப்படையில் தோராயக் கணக்கு. காயின் தரம், உலர்வு, வியாபாரி பொறுத்து விலை மாறும்.'
+      : "An estimate from today's government market rate. Actual price depends on nut quality, dryness and the buyer.";
+
   String range(int days) => switch (days) {
         20 => ta ? '20 நாள்' : '20D',
         30 => ta ? '1 மாதம்' : '1M',

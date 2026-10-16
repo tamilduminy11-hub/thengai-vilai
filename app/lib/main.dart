@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api.dart';
+import 'calculator.dart';
 import 'detail_sheet.dart';
 import 'strings.dart';
 import 'theme.dart';
@@ -120,6 +121,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _openCalculator() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: context.pal.surface,
+      constraints: const BoxConstraints(maxWidth: 560),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
+      builder: (_) => CalculatorSheet(items: fresh, s: s),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
@@ -143,6 +156,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (items != null) ...[
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton.icon(
+                          onPressed: _openCalculator,
+                          icon: const Icon(Icons.calculate_outlined),
+                          label: Text(s.calcButton, textAlign: TextAlign.center),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: p.husk,
+                            foregroundColor: p.surface,
+                            minimumSize: const Size.fromHeight(54),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                    ],
                     UnitSwitch(s: s, unit: unit, onChanged: _setUnit),
                     const SizedBox(height: 14),
                     AreaChips(

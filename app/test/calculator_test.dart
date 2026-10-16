@@ -47,10 +47,12 @@ void main() {
     await scrollTo(t, find.text('₹25,000 – ₹27,000'));
     expect(find.text('₹25 – ₹27'), findsWidgets);       // per nut (answer + 500 g ladder row)
     expect(find.text('₹25,000 – ₹27,000'), findsOneWidget);
-    await scrollTo(t, find.text('+ ₹2,800'));            // 1000 black husks at ₹2,800 / 1000
-    await scrollTo(t, find.text('₹23,700'));             // 150 kg copra x ₹158
-    expect(find.text('₹2,828'), findsOneWidget);         // 75 kg shell x ₹37,700 / tonne
-    expect(find.text('₹26,528'), findsOneWidget);        // copra + shell
+    // Husk/shell rates are from August: never pre-filled, farmer is asked for today's price.
+    await scrollTo(t, find.text("Today's husk price isn't published. Press + to set the price you were quoted."));
+    expect(find.text('₹2,800'), findsNothing);
+    await scrollTo(t, find.text('₹23,700').first);       // 150 kg copra x ₹158 (fresh rate)
+    expect(find.text('₹23,700'), findsNWidgets(2));       // copra line + total (no shell price yet)
+    expect(find.text("Today's shell price isn't published. Press + to set the price you were quoted."), findsOneWidget);
   });
 
   testWidgets('size ladder: tapping 300 g reprices', (t) async {
@@ -70,6 +72,25 @@ void main() {
     await t.tap(find.text('5,000'));
     await t.pump();
     expect(find.text('5,000'), findsWidgets);
+  });
+
+  testWidgets('fresh husk/shell rates are pre-filled; farmer can set a price', (t) async {
+    final today = DateTime.now();
+    final allFresh = [
+      ...fresh,
+      rate('cdb.husk_black.pollachi', 2.8, day: today),
+      rate('cdb.shell.kangayam_mkt', 37.7, day: today),
+    ];
+    t.view.physicalSize = const Size(390, 844) * 3;
+    t.view.devicePixelRatio = 3;
+    addTearDown(t.view.reset);
+    await t.pumpWidget(MaterialApp(
+      theme: buildTheme(Brightness.light),
+      home: Scaffold(body: CalculatorSheet(fresh: fresh, all: allFresh, s: const S(Lang.en))),
+    ));
+    await scrollTo(t, find.text('+ ₹2,800'));            // 1000 black husks at ₹2,800 / 1000
+    await scrollTo(t, find.text('₹26,528'));             // copra ₹23,700 + shell 75 kg x ₹37,700/t
+    expect(find.text('₹2,828'), findsOneWidget);
   });
 
   testWidgets('black only uses black coconut and black husk', (t) async {

@@ -203,11 +203,14 @@ class _CalculatorSheetState extends State<CalculatorSheet> {
     );
   }
 
+  /// Market rate for a by-product, or null when it is missing or older than 10 days.
+  /// Old prices are never shown: the farmer types today's quoted price instead.
+  int? _freshPrice(RateItem? r) => r == null || _isOld(r.day) ? null : _round100(r.perKg * 1000);
+
   List<Widget> _husk(Palette p) {
     final r = _huskRate;
-    if (r == null) return const [];
-    final price = huskPer1000 ?? _round100(r.perKg * 1000);
-    final extra = count * price / 1000;
+    final market = _freshPrice(r);
+    final price = huskPer1000 ?? market ?? 0;
     return [
       const SizedBox(height: 20),
       _Card(
@@ -219,8 +222,12 @@ class _CalculatorSheetState extends State<CalculatorSheet> {
             step: 100,
             onChanged: (v) => setState(() => huskPer1000 = v),
           ),
-          _Line(label: s.huskCount(nf(count)), value: '+ ${money(extra, Unit.kg)}', strong: true),
-          _RateNote(text: s.rateAsOn(r.day, s.huskRate), old: huskPer1000 == null && _isOld(r.day), s: s),
+          if (price > 0)
+            _Line(label: s.huskCount(nf(count)), value: '+ ${money(count * price / 1000, Unit.kg)}', strong: true)
+          else
+            _Prompt(text: s.enterTodayHusk),
+          if (huskPer1000 == null && market != null) _RateNote(text: s.rateAsOn(r!.day, s.huskRate), old: false, s: s),
+          if (huskPer1000 != null) _RateNote(text: s.yourPrice, old: false, s: s),
         ],
       ),
     ];
@@ -230,7 +237,8 @@ class _CalculatorSheetState extends State<CalculatorSheet> {
     final c = _copraRate;
     final sh = _shellRate;
     if (c == null) return const [];
-    final shellPrice = shellPerTon ?? (sh == null ? 0 : _round100(sh.perKg * 1000));
+    final shellMarket = _freshPrice(sh);
+    final shellPrice = shellPerTon ?? shellMarket ?? 0;
     final copraKg = totalKg * copraOutturn;
     final shellKg = totalKg * shellOutturn;
     final copraVal = copraKg * c.perKg;
@@ -242,19 +250,21 @@ class _CalculatorSheetState extends State<CalculatorSheet> {
         title: s.copraTitle,
         children: [
           _Line(label: s.copraLine(s.kgText(copraKg)), value: money(copraVal.roundToDouble(), Unit.kg)),
-          _Line(label: s.shellLine(s.kgText(shellKg)), value: money(shellVal.roundToDouble(), Unit.kg)),
-          if (sh != null || shellPerTon != null)
-            _Stepper(
-              label: s.shellPriceLabel,
-              value: shellPrice,
-              step: 1000,
-              onChanged: (v) => setState(() => shellPerTon = v),
-            ),
+          _Stepper(
+            label: s.shellPriceLabel,
+            value: shellPrice,
+            step: 1000,
+            onChanged: (v) => setState(() => shellPerTon = v),
+          ),
+          if (shellPrice > 0)
+            _Line(label: s.shellLine(s.kgText(shellKg)), value: money(shellVal.roundToDouble(), Unit.kg))
+          else
+            _Prompt(text: s.enterTodayShell),
           Divider(color: p.line),
           _Line(label: s.copraTotal, value: money(total.roundToDouble(), Unit.kg), strong: true),
           _Line(label: s.copraPerKg(money(totalKg == 0 ? 0 : total / totalKg, Unit.kg)), value: ''),
           _RateNote(text: s.rateAsOn(c.day, s.copraRate), old: false, s: s),
-          if (sh != null) _RateNote(text: s.rateAsOn(sh.day, s.shellRate), old: shellPerTon == null && _isOld(sh.day), s: s),
+          if (shellPerTon == null && shellMarket != null) _RateNote(text: s.rateAsOn(sh!.day, s.shellRate), old: false, s: s),
           const SizedBox(height: 4),
           Text(s.copraNote, style: TextStyle(fontSize: 13, color: p.ink3, height: 1.45)),
         ],
@@ -582,7 +592,7 @@ class _Stepper extends StatelessWidget {
         children: [
           Expanded(child: Text(label, style: TextStyle(fontSize: 15, color: p.ink2))),
           IconButton.outlined(
-            onPressed: value > step ? () => onChanged(value - step) : null,
+            onPressed: value >= step ? () => onChanged(value - step) : null,
             icon: const Icon(Icons.remove),
             tooltip: '−$step',
           ),
@@ -595,6 +605,23 @@ class _Stepper extends StatelessWidget {
       ),
     );
   }
+}
+
+class _Prompt extends StatelessWidget {
+  const _Prompt({required this.text});
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          children: [
+            Icon(Icons.touch_app_outlined, color: context.pal.husk),
+            const SizedBox(width: 8),
+            Expanded(child: Text(text, style: TextStyle(fontSize: 15, color: context.pal.husk, fontWeight: FontWeight.w700))),
+          ],
+        ),
+      );
 }
 
 class _Line extends StatelessWidget {

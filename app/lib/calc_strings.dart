@@ -55,6 +55,13 @@ extension CalcStrings on S {
       : '100 kg dehusked coconut ≈ 30 kg copra + 15 kg shell. Drying and labour costs are not subtracted.';
 
   String rateAsOn(DateTime d, String what) => ta ? '$what: ${date(d)} நிலவரம்' : '$what: as on ${date(d)}';
+  String get enterTodayHusk => ta
+      ? 'இன்றைய மட்டை விலை அரசு தளத்தில் இல்லை. உங்களுக்குச் சொன்ன விலையை + அழுத்தி வையுங்கள்.'
+      : "Today's husk price isn't published. Press + to set the price you were quoted.";
+  String get enterTodayShell => ta
+      ? 'இன்றைய தொட்டி விலை அரசு தளத்தில் இல்லை. உங்களுக்குச் சொன்ன விலையை + அழுத்தி வையுங்கள்.'
+      : "Today's shell price isn't published. Press + to set the price you were quoted.";
+  String get yourPrice => ta ? 'நீங்கள் வைத்த விலை' : 'Price you set';
   String get oldRate => ta ? 'பழைய விலை. இன்றைய விலை தெரிந்தால் + / − அழுத்தி மாற்றுங்கள்.' : 'Older rate. If you know today\'s price, change it with + / −.';
   String get coconutRate => ta ? 'தேங்காய் விலை' : 'Coconut rate';
   String get huskRate => ta ? 'மட்டை விலை' : 'Husk rate';

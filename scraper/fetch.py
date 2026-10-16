@@ -41,6 +41,7 @@ CDB_PRODUCTS = {
     "19": ("coconut_black", "Coconut (black)", "தேங்காய் (கருப்பு)", "tonne"),
     "18": ("coconut_green", "Coconut (green)", "தேங்காய் (பச்சை)", "tonne"),
     "1": ("coconut_oil", "Coconut oil", "தேங்காய் எண்ணெய்", "quintal"),
+    "12": ("desiccated_coconut", "Desiccated coconut", "உலர் தேங்காய் துருவல்", "quintal"),
 }
 
 # CDB market id -> (slug, English, Tamil)
@@ -124,7 +125,8 @@ def parse_cdb(page: str) -> list[dict]:
     """Turn the CDB report tables into observations."""
     # Names exactly as the CDB tables print them.
     cdb_names = {"milling copra": "2", "ball copra": "7", "coconut black": "19",
-                 "coconut green": "18", "coconut oil": "1"}
+                 "coconut green": "18", "coconut oil": "1",
+                 "desiccated coconut": "12"}
     cdb_market_names = {"kochi": "1", "kozhikode": "3", "kangayam": "4", "tiptur": "11",
                         "pollachi": "20", "kangeyam(mkt)": "21", "pollachi(mkt)": "25",
                         "udumalpet": "26", "arisikere": "27", "coimbatore": "28"}

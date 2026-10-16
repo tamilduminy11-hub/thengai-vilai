@@ -110,6 +110,13 @@ header.top {
 }
 .units button[aria-pressed="true"] { background: var(--husk); color: var(--surface); }
 
+.chips { display: flex; gap: 8px; overflow-x: auto; margin: 14px -16px 0; padding: 2px 16px 4px; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chips button {
+  flex: none; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink-2);
+  border-radius: 999px; padding: 4px 16px; font-size: 16px; font-weight: 700; min-height: 40px; cursor: pointer;
+}
+.chips button[aria-pressed="true"] { border-color: var(--husk); color: var(--husk); }
 .note { font-size: 14px; color: var(--ink-3); margin: 8px 0 0; }
 
 section.group { margin: 26px 0 0; }
@@ -207,6 +214,7 @@ dialog::backdrop { background: rgba(10, 14, 10, 0.55); }
     <button type="button" data-unit="quintal" aria-pressed="false"></button>
     <button type="button" data-unit="tonne" aria-pressed="false"></button>
   </div>
+  <div class="chips" role="group" aria-label="Market" id="chips"></div>
   <p class="note" data-t="lagNote"></p>
   <div id="list"><div class="state" data-t="loading"></div></div>
 
@@ -261,8 +269,10 @@ dialog::backdrop { background: rgba(10, 14, 10, 0.55); }
         milling_copra: "அரவை கொப்பரை", ball_copra: "பந்து கொப்பரை",
         coconut_black: "தேங்காய் (கருப்பு)", coconut_green: "தேங்காய் (பச்சை)",
         coconut: "தேங்காய் (மாநில சராசரி)", copra: "கொப்பரை (மாநில சராசரி)",
-        coconut_oil: "தேங்காய் எண்ணெய்", tender_coconut: "இளநீர் (மாநில சராசரி)"
+        coconut_oil: "தேங்காய் எண்ணெய்", tender_coconut: "இளநீர் (மாநில சராசரி)",
+        desiccated_coconut: "உலர் தேங்காய் துருவல்"
       },
+      areas: { all: "அனைத்தும்", kangayam: "காங்கேயம்", pollachi: "பொள்ளாச்சி", coimbatore: "கோவை / உடுமலை", kerala: "கேரளா", karnataka: "கர்நாடகா", state: "மாநில சராசரி" },
       empty: "இந்த நேரத்தில் புதிய விலைகள் இல்லை."
     },
     en: {
@@ -286,13 +296,19 @@ dialog::backdrop { background: rgba(10, 14, 10, 0.55); }
         milling_copra: "Milling copra", ball_copra: "Ball copra",
         coconut_black: "Coconut (black)", coconut_green: "Coconut (green)",
         coconut: "Coconut (state average)", copra: "Copra (state average)",
-        coconut_oil: "Coconut oil", tender_coconut: "Tender coconut (state average)"
+        coconut_oil: "Coconut oil", tender_coconut: "Tender coconut (state average)",
+        desiccated_coconut: "Desiccated coconut"
       },
+      areas: { all: "All", kangayam: "Kangayam", pollachi: "Pollachi", coimbatore: "Coimbatore / Udumalpet", kerala: "Kerala", karnataka: "Karnataka", state: "State average" },
       empty: "No recent rates right now."
     }
   };
   var GROUP_ORDER = ["milling_copra", "ball_copra", "coconut_black", "coconut_green",
-                     "coconut_oil", "copra", "coconut", "tender_coconut"];
+                     "coconut_oil", "desiccated_coconut", "copra", "coconut", "tender_coconut"];
+  var AREA_OF = { kangayam: "kangayam", kangayam_mkt: "kangayam", pollachi: "pollachi", pollachi_mkt: "pollachi",
+                  coimbatore: "coimbatore", udumalpet: "coimbatore", kochi: "kerala", kozhikode: "kerala",
+                  tiptur: "karnataka", arisikere: "karnataka", tamil_nadu: "state", kerala: "state" };
+  var AREA_ORDER = ["all", "kangayam", "pollachi", "coimbatore", "kerala", "karnataka", "state"];
   var MARKET_ORDER = ["kangayam", "kangayam_mkt", "pollachi", "pollachi_mkt", "udumalpet",
                       "coimbatore", "tamil_nadu", "kochi", "kozhikode", "kerala", "tiptur", "arisikere"];
   var FACTOR = { kg: 1, quintal: 100, tonne: 1000 };
@@ -309,6 +325,7 @@ dialog::backdrop { background: rgba(10, 14, 10, 0.55); }
   var chart = null;
   var open = null;
   var range = "20";
+  var area = store.get("tv.area", "all");
 
   function t(k) { return T[lang][k]; }
   function $(id) { return document.getElementById(id); }
@@ -382,8 +399,17 @@ dialog::backdrop { background: rgba(10, 14, 10, 0.55); }
     });
   }
 
+  function renderChips() {
+    var present = {};
+    freshItems().forEach(function (i) { present[AREA_OF[i.market]] = true; });
+    if (area !== "all" && !present[area]) area = "all";
+    $("chips").innerHTML = AREA_ORDER.filter(function (a) { return a === "all" || present[a]; }).map(function (a) {
+      return '<button type="button" data-area="' + a + '" aria-pressed="' + (a === area) + '">' + esc(t("areas")[a]) + "</button>";
+    }).join("");
+  }
+
   function renderList() {
-    var items = freshItems();
+    var items = freshItems().filter(function (i) { return area === "all" || AREA_OF[i.market] === area; });
     if (!items.length) { $("list").innerHTML = '<div class="state">' + esc(t("empty")) + "</div>"; return; }
     var groups = {};
     items.forEach(function (i) { (groups[i.product] = groups[i.product] || []).push(i); });
@@ -417,6 +443,7 @@ dialog::backdrop { background: rgba(10, 14, 10, 0.55); }
     applyStatic();
     if (!latest) return;
     renderHero();
+    renderChips();
     renderList();
     renderChecked();
     if (open) renderSheet();
@@ -501,6 +528,10 @@ dialog::backdrop { background: rgba(10, 14, 10, 0.55); }
   $("units").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-unit]"); if (!b) return;
     unit = b.getAttribute("data-unit"); store.set("tv.unit", unit); renderAll();
+  });
+  $("chips").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-area]"); if (!b) return;
+    area = b.getAttribute("data-area"); store.set("tv.area", area); renderChips(); renderList();
   });
   $("list").addEventListener("click", function (e) {
     var b = e.target.closest(".row"); if (!b || !latest) return;

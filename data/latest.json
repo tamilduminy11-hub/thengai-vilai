@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16T18:42+05:30",
+ "generated": "2026-10-16T18:59+05:30",
  "items": [
   {
    "id": "agm.coconut.kerala",
@@ -239,6 +239,36 @@
    "per_kg": 266.0,
    "first_seen": "2026-10-16T18:41+05:30",
    "change_per_kg": 0.0,
+   "prev_date": "2026-10-14"
+  },
+  {
+   "id": "cdb.desiccated_coconut.kangayam",
+   "source": "cdb",
+   "product": "desiccated_coconut",
+   "product_en": "Desiccated coconut",
+   "product_ta": "உலர் தேங்காய் துருவல்",
+   "market": "kangayam",
+   "market_en": "Kangayam",
+   "market_ta": "காங்கேயம்",
+   "date": "2026-10-15",
+   "per_kg": 220.0,
+   "first_seen": "2026-10-16T18:59+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-10-14"
+  },
+  {
+   "id": "cdb.desiccated_coconut.tiptur",
+   "source": "cdb",
+   "product": "desiccated_coconut",
+   "product_en": "Desiccated coconut",
+   "product_ta": "உலர் தேங்காய் துருவல்",
+   "market": "tiptur",
+   "market_en": "Tiptur",
+   "market_ta": "திப்தூர்",
+   "date": "2026-10-15",
+   "per_kg": 210.0,
+   "first_seen": "2026-10-16T18:59+05:30",
+   "change_per_kg": 10.0,
    "prev_date": "2026-10-14"
   },
   {

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16T20:28+05:30",
+ "generated": "2026-10-17T09:23+05:30",
  "items": [
   {
    "id": "agm.coconut.kerala",
@@ -10,11 +10,11 @@
    "market": "kerala",
    "market_en": "Kerala (state avg)",
    "market_ta": "கேரளா (சராசரி)",
-   "date": "2026-10-14",
-   "per_kg": 55.33,
-   "first_seen": "2026-10-16T18:41+05:30",
-   "change_per_kg": 3.29,
-   "prev_date": "2026-10-13"
+   "date": "2026-10-15",
+   "per_kg": 51.23,
+   "first_seen": "2026-10-17T09:23+05:30",
+   "change_per_kg": -4.1,
+   "prev_date": "2026-10-14"
   },
   {
    "id": "agm.coconut.tamil_nadu",
@@ -25,11 +25,11 @@
    "market": "tamil_nadu",
    "market_en": "Tamil Nadu (state avg)",
    "market_ta": "தமிழ்நாடு (சராசரி)",
-   "date": "2026-10-14",
-   "per_kg": 55.71,
-   "first_seen": "2026-10-16T18:41+05:30",
-   "change_per_kg": 0.51,
-   "prev_date": "2026-10-13"
+   "date": "2026-10-15",
+   "per_kg": 55.45,
+   "first_seen": "2026-10-17T09:23+05:30",
+   "change_per_kg": -0.26,
+   "prev_date": "2026-10-14"
   },
   {
    "id": "agm.copra.kerala",
@@ -40,11 +40,11 @@
    "market": "kerala",
    "market_en": "Kerala (state avg)",
    "market_ta": "கேரளா (சராசரி)",
-   "date": "2026-10-14",
-   "per_kg": 138.67,
-   "first_seen": "2026-10-16T18:41+05:30",
-   "change_per_kg": 1.77,
-   "prev_date": "2026-10-13"
+   "date": "2026-10-15",
+   "per_kg": 140.57,
+   "first_seen": "2026-10-17T09:23+05:30",
+   "change_per_kg": 1.9,
+   "prev_date": "2026-10-14"
   },
   {
    "id": "agm.tender_coconut.tamil_nadu",
@@ -55,11 +55,11 @@
    "market": "tamil_nadu",
    "market_en": "Tamil Nadu (state avg)",
    "market_ta": "தமிழ்நாடு (சராசரி)",
-   "date": "2026-10-14",
-   "per_kg": 37.56,
-   "first_seen": "2026-10-16T18:41+05:30",
-   "change_per_kg": 0.81,
-   "prev_date": "2026-10-13"
+   "date": "2026-10-15",
+   "per_kg": 36.82,
+   "first_seen": "2026-10-17T09:23+05:30",
+   "change_per_kg": -0.74,
+   "prev_date": "2026-10-14"
   },
   {
    "id": "cdb.ball_copra.kozhikode",

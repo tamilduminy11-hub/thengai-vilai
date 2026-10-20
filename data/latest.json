@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-20T03:12+05:30",
+ "generated": "2026-10-20T09:50+05:30",
  "items": [
   {
    "id": "agm.coconut.kerala",
@@ -10,11 +10,11 @@
    "market": "kerala",
    "market_en": "Kerala (state avg)",
    "market_ta": "கேரளா (சராசரி)",
-   "date": "2026-10-17",
-   "per_kg": 53.85,
-   "first_seen": "2026-10-19T09:38+05:30",
-   "change_per_kg": 1.43,
-   "prev_date": "2026-10-16"
+   "date": "2026-10-18",
+   "per_kg": 50.44,
+   "first_seen": "2026-10-20T09:50+05:30",
+   "change_per_kg": -3.41,
+   "prev_date": "2026-10-17"
   },
   {
    "id": "agm.coconut.tamil_nadu",
@@ -25,11 +25,11 @@
    "market": "tamil_nadu",
    "market_en": "Tamil Nadu (state avg)",
    "market_ta": "தமிழ்நாடு (சராசரி)",
-   "date": "2026-10-17",
-   "per_kg": 56.21,
-   "first_seen": "2026-10-19T09:38+05:30",
-   "change_per_kg": 0.35,
-   "prev_date": "2026-10-16"
+   "date": "2026-10-18",
+   "per_kg": 56.58,
+   "first_seen": "2026-10-20T09:50+05:30",
+   "change_per_kg": 0.37,
+   "prev_date": "2026-10-17"
   },
   {
    "id": "agm.copra.kerala",
@@ -55,11 +55,11 @@
    "market": "tamil_nadu",
    "market_en": "Tamil Nadu (state avg)",
    "market_ta": "தமிழ்நாடு (சராசரி)",
-   "date": "2026-10-17",
-   "per_kg": 37.02,
-   "first_seen": "2026-10-19T09:38+05:30",
-   "change_per_kg": -0.02,
-   "prev_date": "2026-10-16"
+   "date": "2026-10-18",
+   "per_kg": 36.76,
+   "first_seen": "2026-10-20T09:50+05:30",
+   "change_per_kg": -0.26,
+   "prev_date": "2026-10-17"
   },
   {
    "id": "cdb.ball_copra.kozhikode",
@@ -570,6 +570,21 @@
    "first_seen": "2026-10-16T20:04+05:30",
    "change_per_kg": 0.0,
    "prev_date": "2026-08-30"
+  },
+  {
+   "id": "agm.tender_coconut.kerala",
+   "source": "agmarknet",
+   "product": "tender_coconut",
+   "product_en": "Tender coconut",
+   "product_ta": "இளநீர்",
+   "market": "kerala",
+   "market_en": "Kerala (state avg)",
+   "market_ta": "கேரளா (சராசரி)",
+   "date": "2026-10-18",
+   "per_kg": 43.0,
+   "first_seen": "2026-10-20T09:50+05:30",
+   "change_per_kg": null,
+   "prev_date": null
   }
  ]
 }

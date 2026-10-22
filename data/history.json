@@ -55,6 +55,13 @@
    "raw": 4620.81,
    "raw_unit": "quintal",
    "updated": "2026-10-21T09:40+05:30"
+  },
+  "2026-10-20": {
+   "first_seen": "2026-10-22T09:40+05:30",
+   "per_kg": 50.0,
+   "raw": 5000.0,
+   "raw_unit": "quintal",
+   "updated": "2026-10-22T09:40+05:30"
   }
  },
  "agm.coconut.tamil_nadu": {
@@ -113,6 +120,13 @@
    "raw": 5646.02,
    "raw_unit": "quintal",
    "updated": "2026-10-21T09:40+05:30"
+  },
+  "2026-10-20": {
+   "first_seen": "2026-10-22T09:40+05:30",
+   "per_kg": 55.82,
+   "raw": 5581.65,
+   "raw_unit": "quintal",
+   "updated": "2026-10-22T09:40+05:30"
   }
  },
  "agm.copra.kerala": {
@@ -164,6 +178,13 @@
    "raw": 13200.0,
    "raw_unit": "quintal",
    "updated": "2026-10-21T09:40+05:30"
+  },
+  "2026-10-20": {
+   "first_seen": "2026-10-22T09:40+05:30",
+   "per_kg": 132.0,
+   "raw": 13200.0,
+   "raw_unit": "quintal",
+   "updated": "2026-10-22T09:40+05:30"
   }
  },
  "agm.tender_coconut.kerala": {
@@ -231,6 +252,13 @@
    "raw": 3696.85,
    "raw_unit": "quintal",
    "updated": "2026-10-21T09:40+05:30"
+  },
+  "2026-10-20": {
+   "first_seen": "2026-10-22T09:40+05:30",
+   "per_kg": 36.53,
+   "raw": 3653.05,
+   "raw_unit": "quintal",
+   "updated": "2026-10-22T09:40+05:30"
   }
  },
  "cdb.ball_copra.kozhikode": {

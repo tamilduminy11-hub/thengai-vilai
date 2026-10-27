@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27T10:01+05:30",
+ "generated": "2026-10-27T15:47+05:30",
  "items": [
   {
    "id": "agm.coconut.kerala",
@@ -115,11 +115,11 @@
    "market": "arisikere",
    "market_en": "Arisikere",
    "market_ta": "அரசிகெரே",
-   "date": "2026-10-25",
-   "per_kg": 95.0,
-   "first_seen": "2026-10-26T15:54+05:30",
-   "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "date": "2026-10-26",
+   "per_kg": 94.0,
+   "first_seen": "2026-10-27T15:47+05:30",
+   "change_per_kg": -1.0,
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.charcoal.kangayam",
@@ -130,11 +130,11 @@
    "market": "kangayam",
    "market_en": "Kangayam",
    "market_ta": "காங்கேயம்",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 92.0,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.charcoal.kangayam_mkt",
@@ -175,11 +175,11 @@
    "market": "pollachi_mkt",
    "market_en": "Pollachi (market)",
    "market_ta": "பொள்ளாச்சி (சந்தை)",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 95.0,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.charcoal.tiptur",
@@ -205,11 +205,11 @@
    "market": "udumalpet",
    "market_en": "Udumalpet",
    "market_ta": "உடுமலைப்பேட்டை",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 95.0,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.coconut_black.kangayam_mkt",
@@ -265,11 +265,11 @@
    "market": "pollachi_mkt",
    "market_en": "Pollachi (market)",
    "market_ta": "பொள்ளாச்சி (சந்தை)",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 53.0,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.coconut_green.coimbatore",
@@ -280,11 +280,11 @@
    "market": "coimbatore",
    "market_en": "Coimbatore",
    "market_ta": "கோயம்புத்தூர்",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 49.0,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.coconut_green.kangayam_mkt",
@@ -340,11 +340,11 @@
    "market": "pollachi_mkt",
    "market_en": "Pollachi (market)",
    "market_ta": "பொள்ளாச்சி (சந்தை)",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 49.0,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.coconut_oil.kangayam",
@@ -355,11 +355,11 @@
    "market": "kangayam",
    "market_en": "Kangayam",
    "market_ta": "காங்கேயம்",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 213.33,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.coconut_oil.kochi",
@@ -400,11 +400,11 @@
    "market": "kangayam",
    "market_en": "Kangayam",
    "market_ta": "காங்கேயம்",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 218.0,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.desiccated_coconut.tiptur",
@@ -415,11 +415,11 @@
    "market": "tiptur",
    "market_en": "Tiptur",
    "market_ta": "திப்தூர்",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 210.0,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.husk_black.pollachi",
@@ -460,11 +460,11 @@
    "market": "kangayam",
    "market_en": "Kangayam",
    "market_ta": "காங்கேயம்",
-   "date": "2026-10-25",
+   "date": "2026-10-26",
    "per_kg": 154.0,
-   "first_seen": "2026-10-26T15:54+05:30",
+   "first_seen": "2026-10-27T15:47+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-10-24"
+   "prev_date": "2026-10-25"
   },
   {
    "id": "cdb.milling_copra.kangayam_mkt",

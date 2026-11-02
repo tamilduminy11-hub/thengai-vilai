@@ -5807,6 +5807,20 @@
    "raw": 31131.0,
    "raw_unit": "quintal",
    "updated": "2026-10-30T10:45+05:30"
+  },
+  "2026-10-30": {
+   "first_seen": "2026-11-02T19:17+05:30",
+   "per_kg": 311.31,
+   "raw": 31131.0,
+   "raw_unit": "quintal",
+   "updated": "2026-11-02T19:17+05:30"
+  },
+  "2026-10-31": {
+   "first_seen": "2026-11-02T19:17+05:30",
+   "per_kg": 311.31,
+   "raw": 31131.0,
+   "raw_unit": "quintal",
+   "updated": "2026-11-02T19:17+05:30"
   }
  },
  "cdb.charcoal.arisikere": {

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-16T11:20+05:30",
+ "generated": "2026-11-16T20:53+05:30",
  "items": [
   {
    "id": "agm.coconut.kerala",
@@ -100,11 +100,11 @@
    "market": "tiptur",
    "market_en": "Tiptur",
    "market_ta": "திப்தூர்",
-   "date": "2026-11-12",
+   "date": "2026-11-15",
    "per_kg": 316.08,
-   "first_seen": "2026-11-13T11:30+05:30",
-   "change_per_kg": -0.99,
-   "prev_date": "2026-11-11"
+   "first_seen": "2026-11-16T20:53+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-11-14"
   },
   {
    "id": "cdb.charcoal.arisikere",

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-20T12:12+05:30",
+ "generated": "2026-11-23T12:26+05:30",
  "items": [
   {
    "id": "agm.coconut.kerala",
@@ -85,11 +85,11 @@
    "market": "kozhikode",
    "market_en": "Kozhikode",
    "market_ta": "கோழிக்கோடு",
-   "date": "2026-11-19",
+   "date": "2026-11-22",
    "per_kg": 225.0,
-   "first_seen": "2026-11-20T12:12+05:30",
+   "first_seen": "2026-11-23T12:26+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-11-18"
+   "prev_date": "2026-11-21"
   },
   {
    "id": "cdb.ball_copra.tiptur",
@@ -100,11 +100,11 @@
    "market": "tiptur",
    "market_en": "Tiptur",
    "market_ta": "திப்தூர்",
-   "date": "2026-11-18",
-   "per_kg": 310.0,
-   "first_seen": "2026-11-19T12:23+05:30",
+   "date": "2026-11-22",
+   "per_kg": 311.4,
+   "first_seen": "2026-11-23T12:26+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-11-17"
+   "prev_date": "2026-11-21"
   },
   {
    "id": "cdb.charcoal.arisikere",
@@ -370,11 +370,11 @@
    "market": "kochi",
    "market_en": "Kochi",
    "market_ta": "கொச்சி",
-   "date": "2026-11-19",
+   "date": "2026-11-22",
    "per_kg": 250.0,
-   "first_seen": "2026-11-20T12:12+05:30",
+   "first_seen": "2026-11-23T12:26+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-11-18"
+   "prev_date": "2026-11-21"
   },
   {
    "id": "cdb.coconut_oil.kozhikode",
@@ -385,11 +385,11 @@
    "market": "kozhikode",
    "market_en": "Kozhikode",
    "market_ta": "கோழிக்கோடு",
-   "date": "2026-11-19",
-   "per_kg": 270.0,
-   "first_seen": "2026-11-20T12:12+05:30",
-   "change_per_kg": 2.0,
-   "prev_date": "2026-11-18"
+   "date": "2026-11-22",
+   "per_kg": 271.0,
+   "first_seen": "2026-11-23T12:26+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-11-21"
   },
   {
    "id": "cdb.desiccated_coconut.kangayam",
@@ -490,11 +490,11 @@
    "market": "kochi",
    "market_en": "Kochi",
    "market_ta": "கொச்சி",
-   "date": "2026-11-19",
+   "date": "2026-11-22",
    "per_kg": 158.0,
-   "first_seen": "2026-11-20T12:12+05:30",
+   "first_seen": "2026-11-23T12:26+05:30",
    "change_per_kg": 0.0,
-   "prev_date": "2026-11-18"
+   "prev_date": "2026-11-21"
   },
   {
    "id": "cdb.milling_copra.kozhikode",
@@ -505,11 +505,11 @@
    "market": "kozhikode",
    "market_en": "Kozhikode",
    "market_ta": "கோழிக்கோடு",
-   "date": "2026-11-19",
-   "per_kg": 162.0,
-   "first_seen": "2026-11-20T12:12+05:30",
-   "change_per_kg": 1.0,
-   "prev_date": "2026-11-18"
+   "date": "2026-11-22",
+   "per_kg": 164.0,
+   "first_seen": "2026-11-23T12:26+05:30",
+   "change_per_kg": 0.0,
+   "prev_date": "2026-11-21"
   },
   {
    "id": "cdb.milling_copra.negamam",
